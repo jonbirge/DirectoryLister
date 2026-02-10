@@ -6,6 +6,13 @@ use function DI\env;
 
 return [
     /**
+     * Application version number displayed in the footer.
+     *
+     * Default value: '4.0.0'
+     */
+    'app_version' => env('APP_VERSION', '4.0.0'),
+
+    /**
      * Enable application debugging and display error messages.
      *
      * !!! WARNING !!!

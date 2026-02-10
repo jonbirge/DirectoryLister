@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Middlewares;
 
+use DI\Attribute\Inject;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Server\RequestHandlerInterface as RequestHandler;
@@ -13,6 +14,9 @@ class RegisterGlobalsMiddleware
 {
     private const VALID_THEMES = ['dark', 'light'];
 
+    #[Inject('app_version')]
+    private string $appVersion;
+
     public function __construct(
         private Twig $view
     ) {}
@@ -20,6 +24,7 @@ class RegisterGlobalsMiddleware
     public function __invoke(Request $request, RequestHandler $handler): ResponseInterface
     {
         $this->view->getEnvironment()->addGlobal('theme', $this->getThemeFromRequest($request));
+        $this->view->getEnvironment()->addGlobal('app_version', $this->appVersion);
 
         return $handler->handle($request);
     }
